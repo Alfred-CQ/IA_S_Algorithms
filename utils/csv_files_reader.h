@@ -20,8 +20,8 @@ struct Node{
     {}
 };
 
-vector<Node> nodes;
-vector<vector<Node>> adj_list(N_NODES, vector<Node>());
+typedef vector<Node>            IA_NODES;
+typedef vector<vector<Node>>    IA_ADJ_LIST;
 
 vector<Node> get_nodes_from_file(){
     vector<Node> nodes;
@@ -56,7 +56,7 @@ vector<bool> splitString(string s, int n_data){
     return tokens;
 }
 
-vector<vector<Node>> get_adj_list_from_file(){
+vector<vector<Node>> get_adj_list_from_file(const IA_NODES& nodes){
     vector<vector<Node>> adj_list(N_NODES, vector<Node>());
     ifstream file(MATRIX_PATH);
     string line;
@@ -73,9 +73,4 @@ vector<vector<Node>> get_adj_list_from_file(){
         cur_node++;
     }
     return adj_list;
-}
-
-int main(){
-    nodes = get_nodes_from_file();
-    adj_list = get_adj_list_from_file();
 }
