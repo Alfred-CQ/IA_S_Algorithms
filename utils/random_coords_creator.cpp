@@ -10,9 +10,9 @@ using namespace std;
 #define N_NODES 26
 
 struct Node{
-    int x, y;
-    Node(int _x, int _y)
-        : x(_x), y(_y)
+    int x, y, id;
+    Node(int _x, int _y, int _id)
+        : x(_x), y(_y), id(_id)
     {}
 };
 
@@ -29,7 +29,7 @@ int main(){
     {
         int _x = -1 * (rand() % 2 ? -1 : 1) * rand() % LIMIT_X;
         int _y = -1 * (rand() % 2 ? -1 : 1) * rand() % LIMIT_Y;
-        Node temp(_x, _y);
+        Node temp(_x, _y, i);
         nodes.push_back(temp);
     }
 
