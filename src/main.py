@@ -26,7 +26,7 @@ ady_matrix = []
 for i in df.index:
     row = []
     for j in df.columns:
-        row.append(df[i][j])
+        row.append(df[j][i])
     ady_matrix.append(row)
 
 for i in range(0, len(ady_matrix)):
