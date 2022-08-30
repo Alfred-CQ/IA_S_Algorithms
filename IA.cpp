@@ -57,13 +57,7 @@ int main() {
     new_Edge(Nodes[8],Nodes[10]);
     new_Edge(Nodes[10],Nodes[11]);
 
-    for(int i=0;i<12;i++){
-        for(int j=0;j<Nodes[i].edges.size();j++)
-            cout<<Nodes[i].edges[j]->x<<"-";
-        cout<<endl;
-    }
-
-    cout<<"visited\n";
+    cout<<"Visited\n";
     found=false;
     DFS(&Nodes[8],&Nodes[1]);
     
