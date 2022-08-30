@@ -74,3 +74,32 @@ vector<vector<Node>> get_adj_list_from_file(const IA_NODES& nodes){
     }
     return adj_list;
 }
+
+char get_node_name(int i){
+    return char(i + 65);
+}
+
+void test(){
+    IA_NODES nodes = get_nodes_from_file();
+    IA_ADJ_LIST adj_list = get_adj_list_from_file(nodes);
+
+    cout << "[TESTING NODES COORDINATES] . . .\n";
+
+    for(size_t i = 0; i < nodes.size(); i++){
+        cout << "[" << nodes[i].id <<"] -> ("<<nodes[i].x<<", "<<nodes[i].y<<")"<<"\n";
+    }
+
+    cout<< "\n[DONE]\n";
+
+    cout << "\n\n[TESTING ADJACENCY LIST EDGES] . . . \n";
+
+    for(int i = 0; i < adj_list.size(); i++){
+        cout<< "[" << get_node_name(i) <<"] -> ";
+        for(auto e : adj_list[i]){
+            cout<<get_node_name(e.id)<<"->";
+        }
+        cout<<"\n";
+    }
+
+    cout<< "\n[DONE]\n";
+}
