@@ -1,25 +1,10 @@
-#include <iostream>
-#include <vector>
 #include <fstream>
-#include <string>
-#include <cmath>
 #include "./csv_files_reader.h"
+#include "./utils.h"
 
-using namespace std;
-
-#define LIMIT_X 100
-#define LIMIT_Y 100
-#define N_NODES 26
-
-IA_NODES nodes;
-int matrix[N_NODES][N_NODES];
-
-void create_random_coords(){
+void create_random_coords(IA_NODES &nodes){
     srand (time(NULL));
-    
-    string file_name = "../datasets/random_coords.csv";
-
-    ofstream out(file_name);
+    ofstream out(COORDS_PATH);
     out<<"x,y\n";
     for(int i = 0; i < N_NODES; i++)
     {
@@ -37,17 +22,11 @@ void create_random_coords(){
     out.close();
 }
 
-float euclideanDistance(Node one, Node two){
-    float result = 0.0f;
-    result += (((one.x - two.x) * (one.x - two.x)) + (one.y - two.y) * (one.y - two.y));
-    return sqrt(result);
-}
-
-void warrant_no_orphan_nodes(){
+void warrant_no_orphan_nodes(IA_ADJ_MATRIX &adj_matrix){
     for(int i = 0; i < N_NODES; i++){
         int sum = 0;
         for(int j = 0; j < N_NODES; j++){
-            sum += matrix[i][j];
+            sum += adj_matrix[i][j];
         }
         if(sum == 0){
             srand (time(NULL));
@@ -55,29 +34,28 @@ void warrant_no_orphan_nodes(){
             do{
                 target_node = rand() % N_NODES;
             } while(target_node == i);
-            matrix[i][target_node] = matrix[target_node][i] = 1;
+            adj_matrix[i][target_node] = adj_matrix[target_node][i] = 1;
         }
     }
-    
 }
 
-void get_edges(float epsilon){
+IA_ADJ_MATRIX get_edges(const IA_NODES &nodes, const float epsilon){
     
-    memset(matrix, 0, sizeof(matrix));
+    IA_ADJ_MATRIX adj_matrix(N_NODES, vector<int>(N_NODES, 0));
 
     for(int i = 0; i < N_NODES; i++){
         for(int j = i + 1; j < N_NODES; j++){
             if(euclideanDistance(nodes[i], nodes[j]) <= epsilon){
-                matrix[i][j] = matrix[j][i] = 1;
+                adj_matrix[i][j] = adj_matrix[j][i] = 1;
             }
         }
     }
+
+    return adj_matrix;
 }
 
-void write_adj_matrix_to_csv(){
-    string file_name = "../datasets/ady_matrix.csv";
-
-    ofstream out(file_name);
+void write_adj_matrix_to_csv(const IA_ADJ_MATRIX &adj_matrix){
+    ofstream out(MATRIX_PATH);
 
     for(int i = 0; i < N_NODES - 1; i++){
         out << get_node_name(i) << ",";
@@ -87,17 +65,20 @@ void write_adj_matrix_to_csv(){
 
     for(int i = 0; i < N_NODES; i++){
         for(int j = 0; j < N_NODES - 1; j++){
-            out << matrix[i][j] << ",";
+            out << adj_matrix[i][j] << ",";
         }
-        out << matrix[i][N_NODES - 1] << "\n";
+        out << adj_matrix[i][N_NODES - 1] << "\n";
     }
     out.close();
 }
 
 int main(){
-    //create_random_coords(); //uncomment only if necessary
+    IA_NODES nodes;
+    IA_ADJ_MATRIX adj_matrix(N_NODES, vector<int>(N_NODES, 0));
+    
+    //create_random_coords(nodes); //uncomment only if necessary
     nodes = get_nodes_from_file();
-    get_edges(65.80f);
-    warrant_no_orphan_nodes();
-    write_adj_matrix_to_csv();
+    adj_matrix = get_edges(nodes, 65.80f);
+    warrant_no_orphan_nodes(adj_matrix);
+    write_adj_matrix_to_csv(adj_matrix);
 }

@@ -1,30 +1,11 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <string>
-#include <vector>
 #include <cstring>
+#include "./utils.h"
 
-using namespace std;
-
-#define COORDS_PATH "../datasets/random_coords.csv"
-#define MATRIX_PATH "../datasets/ady_matrix.csv"
-#define N_NODES 26
-
-char limiter = ',';
-
-struct Node{
-    int x, y, id;
-    Node(int _x, int _y, int _id)
-        : x(_x), y(_y), id(_id)
-    {}
-};
-
-typedef vector<Node>            IA_NODES;
-typedef vector<vector<Node>>    IA_ADJ_LIST;
-
-vector<Node> get_nodes_from_file(){
-    vector<Node> nodes;
+IA_NODES get_nodes_from_file(){
+    IA_NODES nodes;
     
     ifstream file(COORDS_PATH);
     string line;
@@ -48,15 +29,7 @@ vector<Node> get_nodes_from_file(){
     return nodes;
 }
 
-vector<bool> splitString(string s, int n_data){
-    vector<bool> tokens;
-    for(int i = 0, j = 0; i < n_data; i++, j+=2){
-        tokens.push_back(atoi(&s[j]));
-    }
-    return tokens;
-}
-
-vector<vector<Node>> get_adj_list_from_file(const IA_NODES& nodes){
+IA_ADJ_LIST get_adj_list_from_file(const IA_NODES& nodes){
     vector<vector<Node>> adj_list(N_NODES, vector<Node>());
     ifstream file(MATRIX_PATH);
     string line;
@@ -73,10 +46,6 @@ vector<vector<Node>> get_adj_list_from_file(const IA_NODES& nodes){
         cur_node++;
     }
     return adj_list;
-}
-
-char get_node_name(int i){
-    return char(i + 65);
 }
 
 void test(){
