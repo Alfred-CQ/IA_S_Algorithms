@@ -1,11 +1,13 @@
+#ifndef __GRAPH_MANAGER_H__
+#define __GRAPH_MANAGER_H__
+
 #include <fstream>
 #include "./csv_files_reader.h"
 #include "./utils.h"
 
 void create_random_coords(IA_NODES &nodes){
     srand (time(NULL));
-    ofstream out(COORDS_PATH);
-    out<<"x,y\n";
+
     for(int i = 0; i < N_NODES; i++)
     {
         int _x = -1 * (rand() % 2 ? -1 : 1) * rand() % LIMIT_X;
@@ -14,12 +16,6 @@ void create_random_coords(IA_NODES &nodes){
         nodes.push_back(temp);
     }
     
-    for(int i = 0; i < N_NODES; i++)
-    {
-        out << nodes[i].x << "," << nodes[i].y << "\n";
-    }
-    
-    out.close();
 }
 
 void warrant_no_orphan_nodes(IA_ADJ_MATRIX &adj_matrix){
@@ -54,8 +50,20 @@ IA_ADJ_MATRIX get_edges(const IA_NODES &nodes, const float epsilon){
     return adj_matrix;
 }
 
+void write_nodes_to_csv(const IA_NODES &nodes){
+    ofstream out(COORDS_PATH);
+    out<<"x,y\n";
+
+    for(int i = 0; i < N_NODES; i++)
+    {
+        out << nodes[i].x << "," << nodes[i].y << "\n";
+    }
+    
+    out.close();
+}
+
 void write_adj_matrix_to_csv(const IA_ADJ_MATRIX &adj_matrix){
-    ofstream out(MATRIX_PATH);
+    ofstream out("../datasets/ado_matrix.csv");
 
     for(int i = 0; i < N_NODES - 1; i++){
         out << get_node_name(i) << ",";
@@ -72,13 +80,4 @@ void write_adj_matrix_to_csv(const IA_ADJ_MATRIX &adj_matrix){
     out.close();
 }
 
-int main(){
-    IA_NODES nodes;
-    IA_ADJ_MATRIX adj_matrix(N_NODES, vector<int>(N_NODES, 0));
-    
-    //create_random_coords(nodes); //uncomment only if necessary
-    nodes = get_nodes_from_file();
-    adj_matrix = get_edges(nodes, 65.80f);
-    warrant_no_orphan_nodes(adj_matrix);
-    write_adj_matrix_to_csv(adj_matrix);
-}
+#endif //__GRAPH_MANAGER_H__

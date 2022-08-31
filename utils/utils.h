@@ -26,7 +26,6 @@ typedef vector<Node>            IA_NODES;
 typedef vector<vector<Node>>    IA_ADJ_LIST;
 typedef vector<vector<int>>     IA_ADJ_MATRIX;
 
-
 char get_node_name(int i){
     return char(i + 65);
 }

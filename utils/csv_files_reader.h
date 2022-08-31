@@ -1,3 +1,6 @@
+#ifndef __CSV_READER_H__
+#define __CSV_READER_H__
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -72,3 +75,5 @@ void test(){
 
     cout<< "\n[DONE]\n";
 }
+
+#endif //__CSV_READER_H__
