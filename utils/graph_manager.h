@@ -47,6 +47,8 @@ IA_ADJ_MATRIX get_edges(const IA_NODES &nodes, const float epsilon){
         }
     }
 
+    warrant_no_orphan_nodes(adj_matrix);
+
     return adj_matrix;
 }
 
@@ -63,7 +65,7 @@ void write_nodes_to_csv(const IA_NODES &nodes){
 }
 
 void write_adj_matrix_to_csv(const IA_ADJ_MATRIX &adj_matrix){
-    ofstream out("../datasets/ado_matrix.csv");
+    ofstream out(MATRIX_PATH);
 
     for(int i = 0; i < N_NODES - 1; i++){
         out << get_node_name(i) << ",";

@@ -21,6 +21,12 @@ pos = dict(coords)
 
 df = pd.read_csv("../datasets/ady_matrix.csv", index_col = None)
 
+graph.add_nodes_from(vertices)
+
+nx.draw(graph, pos = pos, node_color = "#add8e6", with_labels = True)
+
+plt.show()
+
 ady_matrix = []
 
 for i in df.index:
@@ -36,7 +42,7 @@ for i in range(0, len(ady_matrix)):
             if(not cur_edge[::-1]  in edges):
                 edges.append(cur_edge)
                 
-graph.add_nodes_from(vertices)
+
 graph.add_edges_from(edges)
 
 nx.draw(graph, pos = pos, node_color = "#add8e6", with_labels = True)
