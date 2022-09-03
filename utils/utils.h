@@ -17,10 +17,20 @@ char limiter = ',';
 
 struct Node{
     int x, y, id;
+    Node(){}
     Node(int _x, int _y, int _id)
         : x(_x), y(_y), id(_id)
     {}
 };
+
+struct Edge{
+    Node from, to;
+    Edge() {}
+    Edge(Node _from, Node _to)
+        : from(_from), to(_to)
+    {}
+};
+
 
 typedef vector<Node>            IA_NODES;
 typedef vector<vector<Node>>    IA_ADJ_LIST;
