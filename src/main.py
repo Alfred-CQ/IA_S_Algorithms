@@ -6,39 +6,60 @@ N_NODES = 26
 
 vertices = [chr(e + 65) for e in range(0, N_NODES)]
 
-graph = nx.Graph()
+def get_pos():
 
-edges = []
+    df = pd.read_csv("../datasets/random_coords.csv", index_col = None)
 
-df = pd.read_csv("../datasets/random_coords.csv", index_col = None)
+    coords = []
+    cur_letter = 65
+    for i in df.index:
+        coords.append([chr(cur_letter), (df["x"][i], df["y"][i])])
+        cur_letter = cur_letter + 1
+    pos = dict(coords)
 
-coords = []
-cur_letter = 65
-for i in df.index:
-    coords.append([chr(cur_letter), (df["x"][i], df["y"][i])])
-    cur_letter = cur_letter + 1
-pos = dict(coords)
+    return pos
 
-df = pd.read_csv("../datasets/ady_matrix.csv", index_col = None)
+def get_adj_matrix():
 
-ady_matrix = []
+    df = pd.read_csv("../datasets/ady_matrix.csv", index_col = None)
+    
+    adj_matrix = []
 
-for i in df.index:
-    row = []
-    for j in df.columns:
-        row.append(df[i][j])
-    ady_matrix.append(row)
+    for i in df.index:
+        row = []
+        for j in df.columns:
+            row.append(df[j][i])
+        adj_matrix.append(row)
 
-for i in range(0, len(ady_matrix)):
-    for j in range(0, len(ady_matrix[i])):
-        if(ady_matrix[i][j] == 1):
-            cur_edge = (chr(i + 65), chr(j + 65))
-            if(not cur_edge[::-1]  in edges):
-                edges.append(cur_edge)
-                
-graph.add_nodes_from(vertices)
-graph.add_edges_from(edges)
+    return adj_matrix
 
-nx.draw(graph, pos = pos, node_color = "#add8e6", with_labels = True)
+def get_edges(adj_matrix):
+    
+    edges = []
 
-plt.show()
+    for i in range(0, len(adj_matrix)):
+        for j in range(0, len(adj_matrix[i])):
+            if(adj_matrix[i][j] == 1):
+                cur_edge = (vertices[i], vertices[j])
+                if(not cur_edge[::-1]  in edges):
+                    edges.append(cur_edge)
+    return edges
+
+
+if __name__ == '__main__':
+
+    graph = nx.Graph()
+
+    #random_coords & respective adjacency matrix
+
+    pos = get_pos()
+    adj_matrix = get_adj_matrix()
+    edges = get_edges(adj_matrix)
+
+    graph.add_nodes_from(vertices)
+    nx.draw(graph, pos = pos, node_color = "#add8e6", with_labels = True)
+    plt.show()
+    
+    graph.add_edges_from(edges)
+    nx.draw(graph, pos = pos, node_color = "#add8e6", with_labels = True)
+    plt.show()
