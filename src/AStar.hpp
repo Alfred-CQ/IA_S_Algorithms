@@ -19,8 +19,12 @@ void AStar_t(Graph* G, int beg, int end)
     
     cout << " -- A* algorithm --" << '\n'; 
 
-    string file_name = "../datasets/AStar.csv", PATH;
+    string file_name = "../datasets/AStar_path.csv",
+           file_exp  = "../datasets/AStar_expn.csv",
+           PATH;
+
     ofstream out(file_name);
+    ofstream out_exp(file_exp);
 
     cout << char(G->nodes[beg].id + 65) << "->";
         
@@ -56,6 +60,8 @@ void AStar_t(Graph* G, int beg, int end)
                     id = x.id;
                 }
 
+                out_exp << char(beg_n.id + 65) << "," << char(x.id + 65) << '\n';
+            
             }
             explore = true;
         }
@@ -81,5 +87,6 @@ void AStar_t(Graph* G, int beg, int end)
     else
         cout << "\nNot Found!" << endl;
 
+    out_exp.close();
     out.close();
 }

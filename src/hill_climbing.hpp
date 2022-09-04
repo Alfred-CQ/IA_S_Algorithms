@@ -7,8 +7,12 @@
 
 void hill_climbing (Graph* G, int beg, int end)
 {
-    string file_name = "../datasets/HC.csv", PATH;
+    string file_name = "../datasets/HC_path.csv",
+           file_exp  = "../datasets/HC_expn.csv",
+           PATH;
+
     ofstream out(file_name);
+    ofstream out_exp(file_exp);
 
     int id, min_d, dist_here;
     bool found = false;
@@ -40,6 +44,9 @@ void hill_climbing (Graph* G, int beg, int end)
                     min_d = dist_here;
                     id = x.id;
                 }
+
+                out_exp << char(beg_n.id + 65) << "," << char(x.id + 65) << '\n';
+
             }
             explored = true;
         }
@@ -64,5 +71,6 @@ void hill_climbing (Graph* G, int beg, int end)
     else
         cout << "\nNot Found!" << endl;
 
+    out_exp.close();
     out.close();
 }
