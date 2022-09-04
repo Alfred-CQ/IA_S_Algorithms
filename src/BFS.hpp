@@ -27,6 +27,8 @@ void BFS_t(Graph* G, int beg, int end)
     
     myQueue.push(G->nodes[beg]);
     
+    cout << " -- BFS algorithm --" << '\n';
+
     while(!myQueue.empty())
     {
         id = myQueue.front().id;
