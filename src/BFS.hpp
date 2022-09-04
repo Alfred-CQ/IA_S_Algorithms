@@ -3,35 +3,29 @@
 #include <queue>
 
 #include "../utils/csv_files_reader.h"
+#include "../utils/graph.h"
 
 using namespace std;
 
-void BFS_t()
+void BFS_t(Graph* G, int beg, int end)
 {
-    string file_name = "../datasets/BFS.csv", PATH;
+    string file_name = "../datasets/BFS_path.csv",
+           file_exp  = "../datasets/BFS_expn.csv", 
+           PATH;
+    
     ofstream out(file_name);
-
-    IA_NODES nodes = get_nodes_from_file();
-    IA_ADJ_LIST adj = get_adj_list_from_file(nodes);
-
-    // Input
-    char beg_c, end_c;
-    cout << "Start: ";
-    cin >> beg_c;
-
-    cout << "End: ";
-    cin >> end_c;
-
-    int beg{int(beg_c) - 65}, end{int(end_c) - 65}, id;
+    ofstream out_exp(file_exp);
+    
+    int id;
     bool found = false; 
     
     vector<bool> visited;
     queue<Node> myQueue;
 
-    visited.resize(nodes.size(),false);
+    visited.resize(G->nodes.size(),false);
     visited[beg] = true;
     
-    myQueue.push(nodes[beg]);
+    myQueue.push(G->nodes[beg]);
     
     while(!myQueue.empty())
     {
@@ -50,12 +44,13 @@ void BFS_t()
 
         myQueue.pop();
        
-        for (auto x : adj[id])
+        for (auto x : G->adj_list[id])
         {
             if (!visited[x.id])
             {
                 visited[x.id] = true;
                 myQueue.push(x);
+                out_exp << char(id + 65) << "," << char(x.id + 65) << '\n';
             }
         }
     }
@@ -64,9 +59,10 @@ void BFS_t()
     out << PATH;
     
     if (found)
-        cout << "\nFound!" << endl;
+        cout << "END\nFound!" << endl;
     else
         cout << "\nNot Found!" << endl;
 
     out.close();
+    out_exp.close();
 }
