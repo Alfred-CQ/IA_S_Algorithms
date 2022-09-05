@@ -26,10 +26,11 @@ void AStar_t(Graph* G, int beg, int end)
     ofstream out(file_name);
     ofstream out_exp(file_exp);
 
+    out_exp<<"from,to\n";
+
     cout << char(G->nodes[beg].id + 65) << "->";
         
     PATH.push_back(char(G->nodes[beg].id + 65));
-    PATH.push_back(',');
     
     int id;
     float min_d, aStar_op;
@@ -71,14 +72,13 @@ void AStar_t(Graph* G, int beg, int end)
         cout << char(G->nodes[id].id + 65) << "->";
         
         PATH.push_back(char(id + 65));
-        PATH.push_back(',');
 
         beg_n = G->nodes[id];
     }
-
-
-    PATH.pop_back();
-    out << PATH;
+    
+    out<<"label\n";
+    for(auto c : PATH)
+        out<<c<<"\n";
     
     found = (beg_n.id == end_n.id);
 
