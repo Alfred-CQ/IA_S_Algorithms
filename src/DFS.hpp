@@ -7,46 +7,43 @@
 
 bool found = false;
 
-void DFS(IA_NODES nodes,IA_ADJ_LIST adj_list, vector<bool> visited, int cur, int end, string& EXP, string& PATH){ 
-    visited[cur]=1;
+void DFS(IA_NODES nodes,IA_ADJ_LIST adj_list, vector<bool> visited, int cur, int end, string& EXP, string& PATH)
+{ 
+    visited[cur] = 1;
+    
     PATH.push_back(char(cur+65));
     PATH.push_back('\n');
-
-    EXP.push_back(char(cur+65));
-    if(EXP.size()>2){
-        EXP.push_back('\n');
-        if(cur!=end){
-            EXP.push_back(char(cur+65));
-            EXP.push_back(',');
-        }
-    }
-    else EXP.push_back(',');
-
-
+    
     cout<<char(cur+65)<<"->";
     
-    if(cur==end){
+    if(cur==end)
+    {
         cout << "END\nFound!\n";
-        found=true;
+        found = true;
         return;
     }
-    for (int i = 0; !found && i < adj_list[cur].size(); i++ ){
-        if (visited[adj_list[cur][i].id]==false){
-            DFS(nodes,adj_list,visited,adj_list[cur][i].id,end,EXP,PATH);
-            if(!found){
-                PATH.pop_back();
-                PATH.pop_back();
-            }
+
+    for (int i = 0; !found && i < adj_list[cur].size(); i++ )
+    {
+        if (visited[adj_list[cur][i].id]==false)
+        {
+            EXP.push_back(char(cur+65));
+            EXP.push_back(',');
+            EXP.push_back(char(adj_list[cur][i].id + 65));
+            EXP.push_back('\n');
+
+            DFS(nodes,adj_list,visited,adj_list[cur][i].id,end, EXP, PATH);
         }
+        
     }
 }
 
 void DFS_t(Graph* G, int beg, int end)
 {
-    string file_name = "../datasets/DFS_path.csv", PATH;
-    ofstream out_path(file_name);
+    string file_name = "../datasets/DFS_path.csv", PATH, EXP,
+           file_exp  = "../datasets/DFS_expn.csv";
 
-    string file_exp = "../datasets/DFS_expn.csv", EXP;
+    ofstream out(file_name);
     ofstream out_expn(file_exp);
     
     vector<bool> visited(G->nodes.size(),0);
@@ -58,7 +55,11 @@ void DFS_t(Graph* G, int beg, int end)
     
     out_expn<<"from,to\n";
     out_expn<<EXP;
-    out_path<<"label\n";
-    out_path<<PATH;
-}
 
+    out<<"label\n";
+    out<<PATH;
+
+    out.close();
+    out_expn.close();
+
+}
