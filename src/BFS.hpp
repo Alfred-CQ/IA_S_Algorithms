@@ -10,9 +10,8 @@ using namespace std;
 void BFS_t(Graph* G, int beg, int end)
 {
     string file_name = "../datasets/BFS_path.csv",
-           file_exp  = "../datasets/BFS_expn.csv", 
-           PATH;
-    
+           file_exp  = "../datasets/BFS_expn.csv";
+
     ofstream out(file_name);
     ofstream out_exp(file_exp);
     
@@ -28,6 +27,9 @@ void BFS_t(Graph* G, int beg, int end)
     myQueue.push(G->nodes[beg]);
     
     cout << " -- BFS algorithm --" << '\n';
+    
+    out << "label\n";
+    out_exp << "from,to\n";
 
     while(!myQueue.empty())
     {
@@ -35,8 +37,7 @@ void BFS_t(Graph* G, int beg, int end)
         
         cout << char(id + 65) << "->";
         
-        PATH.push_back(char(id + 65));
-        PATH.push_back(',');
+        out << char(id + 65) << '\n';
         
         if (id == end)
         {
@@ -56,9 +57,6 @@ void BFS_t(Graph* G, int beg, int end)
             }
         }
     }
-
-    PATH.pop_back();
-    out << PATH;
     
     if (found)
         cout << "END\nFound!" << endl;

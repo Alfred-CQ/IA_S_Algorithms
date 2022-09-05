@@ -108,13 +108,68 @@ def dijkstra(graph, source, target):
     return edges, path, edges_visited
 
 def plot_dfs(graph, source, target):
-    #not_visited_edges
-
+    not_visited_edges = []
+    visited_edges = []
+    path_edges = []
+    path = []
+    df = pd.read_csv("../datasets/DFS_expn.csv", index_col = None)
     
-    pass
+    for i in df.index:
+        visited_edges.append((df["from"][i], df["to"][i]))
+    df = pd.read_csv("../datasets/DFS_path.csv", index_col = None)
+    for i in df.index:
+        path.append(df["label"][i])
+    last = path[0]
+    for i in path:
+        path_edges.append((last, i))
+        last = i
+    path_edges.remove(path_edges[0])
+    for i in edges:
+        if (not i in visited_edges) and (not i in path_edges) and (not i[::-1] in visited_edges) and (not i[::-1] in path_edges):
+            not_visited_edges.append(i)
+    
+    nx.draw_networkx(graph, pos = pos, node_color = "#add8e6", edgelist = not_visited_edges, with_labels = True, width = 1) #not_visited edges
+    ax = plt.gca()
+    ax.collections[0].set_edgecolor("#000000")
+
+    nx.draw_networkx(graph, pos, nodelist=path,node_color="yellow", edgelist=path_edges, edge_color="red", node_size=210, width=3) #path edges
+ 
+    nx.draw_networkx_edges(graph, pos, edgelist=visited_edges, edge_color="red", node_size=210, width=1, style = "dashed") #visited edges
+    plt.axis("off")
+    plt.title("DFS Algorithm")
+    plt.show()
 
 def plot_bfs(graph, source, target):
-    pass
+    not_visited_edges = []
+    visited_edges = []
+    path_edges = []
+    path = []
+    df = pd.read_csv("../datasets/BFS_expn.csv", index_col = None)
+    
+    for i in df.index:
+        visited_edges.append((df["from"][i], df["to"][i]))
+    df = pd.read_csv("../datasets/BFS_path.csv", index_col = None)
+    for i in df.index:
+        path.append(df["label"][i])
+    last = path[0]
+    for i in path:
+        path_edges.append((last, i))
+        last = i
+    path_edges.remove(path_edges[0])
+    for i in edges:
+        if (not i in visited_edges) and (not i in path_edges) and (not i[::-1] in visited_edges) and (not i[::-1] in path_edges):
+            not_visited_edges.append(i)
+    
+    nx.draw_networkx(graph, pos = pos, node_color = "#add8e6", edgelist = not_visited_edges, with_labels = True, width = 1) #not_visited edges
+    ax = plt.gca()
+    ax.collections[0].set_edgecolor("#000000")
+
+    nx.draw_networkx(graph, pos, nodelist=path,node_color="yellow", edgelist=path_edges, edge_color="red", node_size=210, width=3) #path edges
+ 
+    nx.draw_networkx_edges(graph, pos, edgelist=visited_edges, edge_color="red", node_size=210, width=1, style = "dashed") #visited edges
+    plt.axis("off")
+    plt.title("BFS Algorithm")
+    plt.show()
 
 def plot_dijkstra(graph, source, target):
     not_visited_edges = []
@@ -147,7 +202,36 @@ def plot_dijkstra(graph, source, target):
     plt.show()
 
 def plot_HillClimbing(graph, source, target):
-    pass
+    not_visited_edges = []
+    visited_edges = []
+    path_edges = []
+    path = []
+    df = pd.read_csv("../datasets/HC_expn.csv", index_col = None)
+    
+    for i in df.index:
+        visited_edges.append((df["from"][i], df["to"][i]))
+    df = pd.read_csv("../datasets/HC_path.csv", index_col = None)
+    for i in df.index:
+        path.append(df["label"][i])
+    last = path[0]
+    for i in path:
+        path_edges.append((last, i))
+        last = i
+    path_edges.remove(path_edges[0])
+    for i in edges:
+        if (not i in visited_edges) and (not i in path_edges) and (not i[::-1] in visited_edges) and (not i[::-1] in path_edges):
+            not_visited_edges.append(i)
+    
+    nx.draw_networkx(graph, pos = pos, node_color = "#add8e6", edgelist = not_visited_edges, with_labels = True, width = 1) #not_visited edges
+    ax = plt.gca()
+    ax.collections[0].set_edgecolor("#000000")
+
+    nx.draw_networkx(graph, pos, nodelist=path,node_color="yellow", edgelist=path_edges, edge_color="red", node_size=210, width=3) #path edges
+ 
+    nx.draw_networkx_edges(graph, pos, edgelist=visited_edges, edge_color="red", node_size=210, width=1, style = "dashed") #visited edges
+    plt.axis("off")
+    plt.title("Hill Climbing Algorithm")
+    plt.show()
 
 def plot_AStar(graph, source, target):
     not_visited_edges = []
