@@ -17,6 +17,8 @@ void hill_climbing (Graph* G, int beg, int end)
     int id, min_d, dist_here;
     bool found = false;
 
+
+
     vector<bool> visited;
 
     visited.resize(G->nodes.size(),false);
@@ -27,6 +29,10 @@ void hill_climbing (Graph* G, int beg, int end)
     Node end_n = G->nodes[end];
 
     cout << " -- HC algorithm --" << '\n';
+
+    cout << char(G->nodes[beg].id + 65) << "->";
+        
+    PATH.push_back(char(G->nodes[beg].id + 65));
 
     while (beg_n.id != end_n.id && explored) 
     {
