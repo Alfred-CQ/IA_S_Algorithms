@@ -1,4 +1,6 @@
 #include <iostream>
+#include<chrono>
+#include <ctime>
 
 #include "DFS.hpp"
 #include "BFS.hpp"
@@ -6,6 +8,8 @@
 #include "AStar.hpp"
 
 using std::cout; using std::cin;
+typedef std::chrono::time_point<std::chrono::system_clock> time_point;
+typedef std::chrono::duration<double> duration;
 
 int main()
 {
@@ -23,11 +27,33 @@ int main()
 
     int beg{int(beg_c) - 65}, end{int(end_c) - 65}, id;
 
-    DFS_t(&G, beg, end);
-    BFS_t(&G, beg, end);
+    time_point startTime; 
+    time_point endTime;
     
+    startTime = chrono::system_clock::now();
+    DFS_t(&G, beg, end);
+    endTime = chrono::system_clock::now();
+    duration total = endTime - startTime;
+    cout<< total.count() << " ns" << endl;
+
+    startTime = chrono::system_clock::now();
+    BFS_t(&G, beg, end);
+    endTime = chrono::system_clock::now();
+    total = endTime - startTime;
+    cout<< total.count() << " ns" << endl;
+    
+    startTime = chrono::system_clock::now();
     hill_climbing(&G, beg, end); 
+    endTime = chrono::system_clock::now();
+    total = endTime - startTime;
+    cout<< total.count() << " ns" << endl;
+
+    startTime = chrono::system_clock::now();
     AStar_t(&G, beg, end);
+    endTime = chrono::system_clock::now();
+    total = endTime - startTime;
+    cout<< total.count() << " ns" << endl;
+
 
     return 0;
 }
