@@ -34,25 +34,25 @@ int main()
     DFS_t(&G, beg, end);
     endTime = chrono::system_clock::now();
     duration total = endTime - startTime;
-    cout<< total.count() << " ns" << endl;
+    cout << "\t Time: " << total.count() << " ns\n\n";
 
     startTime = chrono::system_clock::now();
     BFS_t(&G, beg, end);
     endTime = chrono::system_clock::now();
     total = endTime - startTime;
-    cout<< total.count() << " ns" << endl;
+    cout << "\t Time: " << total.count() << " ns\n\n";
     
     startTime = chrono::system_clock::now();
     hill_climbing(&G, beg, end); 
     endTime = chrono::system_clock::now();
     total = endTime - startTime;
-    cout<< total.count() << " ns" << endl;
+    cout << "\t Time: " << total.count() << " ns\n\n";
 
     startTime = chrono::system_clock::now();
     AStar_t(&G, beg, end);
     endTime = chrono::system_clock::now();
     total = endTime - startTime;
-    cout<< total.count() << " ns" << endl;
+    cout << "\t Time: " << total.count() << " ns\n\n";
 
 
     return 0;

@@ -2,6 +2,8 @@
 #include <fstream>
 #include <queue>
 #include <math.h>
+#include <algorithm>
+#include <utility>
 
 #include "../utils/csv_files_reader.h"
 #include "../utils/graph.h"
@@ -41,6 +43,10 @@ void AStar_t(Graph* G, int beg, int end)
     out << "label\n" << char(G->nodes[beg].id + 65) << '\n';
     out_exp <<"from,to\n";
 
+    float cost = 0;
+
+    vector<pair<float, int>> m_nodes;
+
     while ( (beg_n.id != end_n.id) && explore)
     {
         min_d = 99999;
@@ -52,7 +58,9 @@ void AStar_t(Graph* G, int beg, int end)
             {
                 
                 aStar_op = euclideanDistance(beg_n, x) + euclideanDistance(x, end_n);
-                
+
+                m_nodes.push_back(make_pair(aStar_op, x.id));
+
                 if ( aStar_op < min_d)
                 {
                     min_d = aStar_op;
@@ -65,6 +73,37 @@ void AStar_t(Graph* G, int beg, int end)
             explore = true;
         }
         
+        sort(m_nodes.begin(), m_nodes.end());
+
+        bool loop = true;
+
+        Node tmp = G->nodes[id];
+
+        for (auto x: G->adj_list[G->nodes[id].id])
+        {
+            if (!visited[x.id])
+            {
+                loop = false;
+            }
+        }
+        if (loop)
+        {
+            int y;
+
+            for (auto x: m_nodes)
+            {
+                if (!visited[x.second])
+                {
+                    loop = false;
+                    y = x.second;
+                }
+            }
+
+            id = m_nodes[y].second;
+        }
+
+        cost += min_d;
+
         visited[id] = true;
         
         cout << char(G->nodes[id].id + 65) << "->";
@@ -72,6 +111,7 @@ void AStar_t(Graph* G, int beg, int end)
         out << char(id + 65) << '\n';
 
         beg_n = G->nodes[id];
+        m_nodes.clear();
     }
     
     found = (beg_n.id == end_n.id);
@@ -80,6 +120,8 @@ void AStar_t(Graph* G, int beg, int end)
         cout << "END\nFound!" << endl;
     else
         cout << "\nNot Found!" << endl;
+
+    cout << "Cost: " << cost;
 
     out_exp.close();
     out.close();

@@ -7,6 +7,8 @@
 
 using namespace std;
 
+string dfs_path;
+
 void BFS_t(Graph* G, int beg, int end)
 {
     string file_name = "../datasets/BFS_path.csv",
@@ -31,12 +33,14 @@ void BFS_t(Graph* G, int beg, int end)
     out << "label\n";
     out_exp << "from,to\n";
 
+    float cost = 0;
+
     while(!myQueue.empty())
     {
         id = myQueue.front().id;
         
         cout << char(id + 65) << "->";
-        
+        dfs_path.push_back(char(id + 65));
         out << char(id + 65) << '\n';
         
         if (id == end)
@@ -46,7 +50,7 @@ void BFS_t(Graph* G, int beg, int end)
         }
 
         myQueue.pop();
-       
+        
         for (auto x : G->adj_list[id])
         {
             if (!visited[x.id])
@@ -57,11 +61,22 @@ void BFS_t(Graph* G, int beg, int end)
             }
         }
     }
+
+    for(int i = 0; i < dfs_path.size(); i++){
+        if ( i+1 < dfs_path.size())
+        {
+            cost += euclideanDistance(G->nodes[int(dfs_path[i] - 65)], 
+                                      G->nodes[int(dfs_path[i + 1] - 65)]);
+        }
+
+    }
     
     if (found)
         cout << "END\nFound!" << endl;
     else
         cout << "\nNot Found!" << endl;
+
+    cout << "Cost: " << cost;
 
     out.close();
     out_exp.close();

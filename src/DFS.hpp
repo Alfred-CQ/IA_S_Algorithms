@@ -67,11 +67,21 @@ void DFS_t(Graph* G, int beg, int end)
         dfs_path.push_back('\n');
         s.pop();
     }
+    
+    float cost = 0;
 
     for(int i = 0; i < dfs_path.size(); i+=2){
         cout << dfs_path[i] << "->";
+        if ( i+2 < dfs_path.size())
+        {
+            cost += euclideanDistance(G->nodes[int(dfs_path[i] - 65)], 
+                                      G->nodes[int(dfs_path[i + 2] - 65)]);
+        }
+
     }
     cout<<"END\n";
+
+    cout << "Cost: " << cost;
 
     out_expn<<"from,to\n";
     out_expn<<EXP;
