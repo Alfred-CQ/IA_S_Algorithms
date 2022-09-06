@@ -22,7 +22,6 @@ $ g++ -o main.exe main.cpp
 $ .\main.exe
 Start: A
 End: U
-
 ```
 
 After this, there will be created two csv files per algorithm with the following names "$algorithm_name$_path.csv" containing the needed nodes to get to the target and "$algorithm_name$_expn.csv" containing the edges visited during the execution of the respective algorithm.
@@ -33,7 +32,6 @@ To see the plot of the graph and the path given by every algorithm, run:
 
 ```
 $ python .\main.py
-
 ```
 You'll see a plotting of the graph like this:
 
@@ -49,7 +47,7 @@ And you'll get to see a plotting like [this](https://media.discordapp.net/attach
 
 ![A* Plotting](https://cdn.discordapp.com/attachments/886256698640171008/1016564072784859137/unknown.png)
 
-###About Logs
+### About Logs
 
 You can also see the costs taken by each algorithm and its respective time to find the path in console where whe can distinguish on how close is the cost found by Hill Climbing and A star algorithms (In fact dijkstra's cost and A star's cost is the same but time taken by dijkstra is longer while A star is the quickest) in relation to Dijkstra algorithm (shortest path) .
 
